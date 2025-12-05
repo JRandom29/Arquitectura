@@ -1,0 +1,252 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{caption}
+
+\geometry{margin=1in}
+
+% Paleta y estilo de tabla
+\definecolor{HeaderBg}{HTML}{2F3B52} % azul grisáceo oscuro
+\definecolor{HeaderText}{HTML}{FFFFFF}
+\definecolor{RowLight}{HTML}{F5F7FA} % gris muy claro
+\definecolor{RowDark}{HTML}{E9EEF5}  % gris claro
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries Manual de Instrucciones MIPS32 en MARS\par}
+\vspace{1cm}
+{\Large\itshape Tabla completa de procedimientos más usados\par}
+
+\vfill
+
+{\Large Estudiante: Jose Natera\par}
+{\large CI: 31185494\par}
+
+
+\vspace{1cm}
+{\large\textbf{Arquitectura del Computador}\par}
+
+\end{titlepage}
+
+
+
+\section*{Tabla de registros MIPS}
+
+\captionsetup{labelfont=bf}
+\begin{table}[h!]
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{2}{RowLight}{RowDark}
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{L{0.10\linewidth} C{0.18\linewidth} L{0.50\linewidth}}
+\rowcolor{HeaderBg}
+\textcolor{HeaderText}{\textbf{Nombre}} &
+\textcolor{HeaderText}{\textbf{Código}} &
+\textcolor{HeaderText}{\textbf{Uso común}} \\
+
+\$\texttt{zero}      & 0       & Constante 0 \\
+\$\texttt{v0} -- \$\texttt{v1} & 2--3     & Valores de retorno de funciones / \texttt{syscall} \\
+\$\texttt{a0} -- \$\texttt{a3} & 4--7     & Argumentos para funciones / \texttt{syscall} \\
+\$\texttt{t0} -- \$\texttt{t7} & 8--15    & Temporales (no conservados entre llamadas) \\
+\$\texttt{s0} -- \$\texttt{s7} & 16--23   & Variables locales (se conservan entre llamadas) \\
+
+
+\$\texttt{t8} -- \$\texttt{t9} & 24--25   & Temporales adicionales
+
+\\\$\texttt{k0} -- \$\texttt{k1} & 26--27   & Reservados para núcleo del Sistema Operativo
+
+\\\$\texttt{gp}  & 28   & Puntero a global
+
+\\\$\texttt{sp}  & 29   & Puntero a pila
+
+\\\$\texttt{fp}  & 30   & Puntero a marco
+
+\\
+\$\texttt{ra}         & 31      & Dirección de retorno (\texttt{jal}, \texttt{jalr}) \\
+\end{tabular}
+\end{table}
+
+
+
+\section*{Formato de instrucciones del MIPS32}
+
+\begin{table}[h!]
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{2}{RowLight}{RowDark}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{L{0.07\linewidth} C{0.12\linewidth} C{0.08\linewidth} C{0.08\linewidth} C{0.08\linewidth} C{0.13\linewidth} C{0.13\linewidth} L{0.22\linewidth}}
+\rowcolor{HeaderBg}
+\textcolor{HeaderText}{\textbf{Tipo}} &
+\textcolor{HeaderText}{\textbf{Cod oper}} &
+\textcolor{HeaderText}{\textbf{rs}} &
+\textcolor{HeaderText}{\textbf{rt}} &
+\textcolor{HeaderText}{\textbf{rd}} &
+\textcolor{HeaderText}{\textbf{desplaz}} &
+\textcolor{HeaderText}{\textbf{func}} &
+\textcolor{HeaderText}{\textbf{Instrucción ejemplo}} \\
+
+R & xxxxxx & \$\texttt{s1} & \$\texttt{s2} & \$\texttt{s0} & 00000 & 100000 & \texttt{add \$s0, \$s1, \$s2} \\
+I & xxxxxx & \$\texttt{s1} & \$\texttt{s0} & — & — & — & \texttt{addi \$s0, \$s1, 5} \\
+J & xxxxxx & — & — & — & — & — & \texttt{j label} \\
+\rowcolor{RowLight}
+\rowcolor{RowLight} &
+31-26 & 25-21 & 20-16 & 15-11 & 10-6 & 5-0 & \\
+
+\end{tabular}
+\end{table}
+
+
+\section*{}
+\begin{table}[h!]
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{3}{RowLight}{RowDark}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{L{0.27\linewidth} C{0.17\linewidth} L{0.30\linewidth} L{0.25\linewidth}}
+\rowcolor{HeaderBg}
+\textcolor{HeaderText}{\textbf{Nombre}} &
+\textcolor{HeaderText}{\textbf{Nemotécnica}} &
+\textcolor{HeaderText}{\textbf{Operación}} &
+\textcolor{HeaderText}{\textbf{Ejemplo}} \\
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Operaciones Booleanas}} \\
+
+And              & \texttt{and}   & \(\text{rd} = \text{rs} \land \text{rt}\)         & \texttt{and \$t0, \$t1, \$t2} \\
+And inmediato    & \texttt{andi}  & \(\text{rd} = \text{rs} \land \text{imm}\)        & \texttt{andi \$t0, \$t1, 0x00FF} \\
+Or               & \texttt{or}    & \(\text{rd} = \text{rs} \lor \text{rt}\)          & \texttt{or \$t0, \$t1, \$t2} \\
+Or inmediato     & \texttt{ori}   & \(\text{rd} = \text{rs} \lor \text{imm}\)         & \texttt{ori \$t0, \$t1, 0x0100} \\
+Xor              & \texttt{xor}   & \(\text{rd} = \text{rs} \oplus \text{rt}\)        & \texttt{xor \$t0, \$t1, \$t2} \\
+Xor inmediato    & \texttt{xori}  & \(\text{rd} = \text{rs} \oplus \text{imm}\)       & \texttt{xori \$t0, \$t1, 0x000F} \\
+Nor              & \texttt{nor}   & \(\text{rd} = \lnot(\text{rs} \lor \text{rt})\)   & \texttt{nor \$t0, \$t1, \$t2} \\
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Operaciones de comparación}} \\
+
+Menor  que                    & \texttt{slt}   & \(\text{rd} = (\text{rs} < \text{rt})\)         & \texttt{slt \$t0, \$t1, \$t2} \\
+Menor que inmediato            & \texttt{slti}  & \(\text{rd} = (\text{rs} < \text{imm})\)        & \texttt{slti \$t0, \$t1, 10} \\
+Menor que (sin signo)          & \texttt{sltu}  & \(\text{rd} = (\text{rs} < \text{rt})\)         & \texttt{sltu \$t0, \$t1, \$t2} \\
+
+
+Igual que             & \texttt{seq}   & \(\text{rd} = (\text{rs} == \text{rt})\)        & \texttt{seq \$t0, \$t1, \$t2} \\
+Distinto que           & \texttt{sne}   & \(\text{rd} = (\text{rs} \neq \text{rt})\)      & \texttt{sne \$t0, \$t1, \$t2} \\
+Mayor que             & \texttt{sgt}   & \(\text{rd} = (\text{rs} > \text{rt})\)         & \texttt{sgt \$t0, \$t1, \$t2} \\
+Mayor o igual  que    & \texttt{sge}   & \(\text{rd} = (\text{rs} \geq \text{rt})\)      & \texttt{sge \$t0, \$t1, \$t2} \\
+Menor o igual que     & \texttt{sle}   & \(\text{rd} = (\text{rs} \leq \text{rt})\)      & \texttt{sle \$t0, \$t1, \$t2} \\
+
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Saltos incondicionales}} \\
+
+Salto absoluto                  & \texttt{j}     & \(\text{PC} = \text{label}\)                 & \texttt{j label} \\
+Salto y enlace                  & \texttt{jal}   & \(\text{ra} = \text{PC} + 4;\ \text{PC} = \text{label}\) & \texttt{jal label} \\
+Salto a dirección en registro   & \texttt{jr}    & \(\text{PC} = \text{ra}\)                        & \texttt{jr \$ra} \\
+Salto y enlace por registro     & \texttt{jalr}  & \(\text{ra} = \text{PC} + 4;\ \text{PC} = \text{rs}\) & \texttt{jalr \$t0} \\
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Saltos condicionales}} \\
+
+Igualdad               & \texttt{beq}   & si \(\text{rs} == \text{rt}\), ir a \texttt{label}   & \texttt{beq \$t0, \$t1, label} \\
+Desigualdad            & \texttt{bne}   & si \(\text{rs} \neq \text{rt}\), ir a \texttt{label} & \texttt{bne \$t0, \$t1, label} \\
+Menor que cero         & \texttt{bltz}  & si \(\text{rs} < 0\), ir a \texttt{label}            & \texttt{bltz \$t0, label} \\
+Mayor o igual que cero & \texttt{bgez}  & si \(\text{rs} \geq 0\), ir a \texttt{label}          & \texttt{bgez \$t0, label} \\
+Mayor que cero         & \texttt{bgtz}  & si \(\text{rs} > 0\), ir a \texttt{label}             & \texttt{bgtz \$t0, label} \\
+Menor o igual que cero & \texttt{blez}  & si \(\text{rs} \leq 0\), ir a \texttt{label}          & \texttt{blez \$t0, label} \\
+
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Desplazamientos lógicos y rotacion a izquierda}} \\
+
+Desplazamiento lógico izquierda (inmediato) & \texttt{sll}   & \(\text{rd} = \text{rt} \ll \text{shamt}\) & \texttt{sll \$t0, \$t1, 2} \\
+Desplazamiento lógico izquierda (por registro) & \texttt{sllv}  & \(\text{rd} = \text{rt} \ll \text{rs}\) & \texttt{sllv \$t0, \$t1, \$t2} \\
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Desplazamientos lógicos y rotacion a derecha}} \\
+
+Desplazamiento lógico derecha (inmediato) & \texttt{srl}   & \(\text{rd} = \text{rt} \gg \text{shamt}\) & \texttt{srl \$t0, \$t1, 2} \\
+Desplazamiento lógico derecha (por registro) & \texttt{srlv}  & \(\text{rd} = \text{rt} \gg \text{rs}\) & \texttt{srlv \$t0, \$t1, \$t2}
+
+\end{tabular}
+\end{table}
+
+
+
+\section*{}
+\begin{table}[!ht]
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{3}{RowLight}{RowDark}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{L{0.27\linewidth} C{0.17\linewidth} L{0.30\linewidth} L{0.25\linewidth}}
+\rowcolor{HeaderBg}
+\textcolor{HeaderText}{\textbf{Nombre}} &
+\textcolor{HeaderText}{\textbf{Nemotécnica}} &
+\textcolor{HeaderText}{\textbf{Operación}} &
+\textcolor{HeaderText}{\textbf{Ejemplo}} \\
+
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Desplazamientos aritméticos a derecha}} \\
+
+Desplazamiento aritmético derecha (inmediato) & \texttt{sra}   & \(\text{rd} = \text{rt} \gg \text{shamt}\) & \texttt{sra \$t0, \$t1, 2} \\
+Desplazamiento aritmético derecha (por registro) & \texttt{srav}  & \(\text{rd} = \text{rt} \gg \text{rs}\)  & \texttt{srav \$t0, \$t1, \$t2} \\
+Desplazamiento aritmético derecha (pseudo)      & \texttt{srar}  & \(\text{rd} = \text{rt} \gg \text{imm}\)  & \texttt{srar \$t0, \$t1, 2} \\
+
+
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Acceso a memoria}} \\
+
+Mover desde LO         & \texttt{mflo}  & \(\text{rd} = \text{LO}\)                             & \texttt{mflo \$t0} \\
+Mover desde HI         & \texttt{mfhi}  & \(\text{rd} = \text{HI}\)                             & \texttt{mfhi \$t0}\\
+Cargar byte        & \texttt{lb}   & \(\text{rd} = \text{mem}[\text{rs} + \text{offset}]\) & \texttt{lb \$t0, 0(\$a0)} \\
+
+Guardar byte                   & \texttt{sb}   & \(\text{mem}[\text{rs} + \text{offset}] = \text{rt}\) & \texttt{sb \$t0, 0(\$a0)} \\
+Cargar halfword    & \texttt{lh}   & \(\text{rd} = \text{mem}[\text{rs} + \text{offset}]\) & \texttt{lh \$t0, 2(\$a0)} \\
+
+Guardar halfword               & \texttt{sh}   & \(\text{mem}[\text{rs} + \text{offset}] = \text{rt}\) & \texttt{sh \$t0, 2(\$a0)} \\
+Cargar palabra                 & \texttt{lw}   & \(\text{rd} = \text{mem}[\text{rs} + \text{offset}]\) & \texttt{lw \$t0, 4(\$gp)} \\
+Guardar palabra                & \texttt{sw}   & \(\text{mem}[\text{rs} + \text{offset}] = \text{rt}\) & \texttt{sw \$t0, 8(\$gp)} \\
+
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Transferencia de datos}} \\
+
+Cargar inmediato alto          & \texttt{lui}  & \(\text{rd} = \text{imm} \ll 16\) & \texttt{lui \$t0, 0x1234} \\
+Cargar inmediato (pseudo)               & \texttt{li}   & \(\text{rd} = \text{imm}\)  & \texttt{li \$t0, 42} \\
+Cargar dirección  (pseudo)             & \texttt{la}   & \(\text{rd} = \text{label}\)  & \texttt{la \$t0, label} \\
+Mover entre registros (pseudo)          & \texttt{move} & \(\text{rd} = \text{rs}\)  & \texttt{move \$t0, \$t1}
+
+\\
+\rowcolor{white}
+\multicolumn{4}{c}{\textbf{Operaciones aritméticas}} \\
+
+Suma con signo & \texttt{add}  & \(\text{rd} = \text{rs} + \text{rt}\)        & \texttt{add \$t0, \$t1, \$t2} \\
+Suma inmediata & \texttt{addi} & \(\text{rd} = \text{rs} + \text{imm}\)     & \texttt{addi \$t0, \$t1, 10} \\
+Suma sin signo & \texttt{addu} & \(\text{rd} = \text{rs} + \text{rt}\)      & \texttt{addu \$t0, \$t1, \$t2} \\
+Resta con signo & \texttt{sub}  & \(\text{rd} = \text{rs} - \text{rt}\)      & \texttt{sub \$t0, \$t1, \$t2} \\
+Resta sin signo & \texttt{subu} & \(\text{rd} = \text{rs} - \text{rt}\)     & \texttt{subu \$t0, \$t1, \$t2} \\
+Multiplicación entera & \texttt{mult}  & \(\text{LO} = \text{rs} \cdot \text{rt}\) & \texttt{mult \$t1, \$t2} \\
+Multiplicación sin signo & \texttt{multu} & \(\text{LO} = \text{rs} \cdot \text{rt}\) & \texttt{multu \$t1, \$t2} \\
+División & \texttt{div}  & \(\text{LO} = \lfloor\text{rs}/\text{rt}\rfloor;\ \text{HI} = \text{rs}\text{ mod }
+\text{rt}\) & \texttt{div \$t1, \$t2} \\
+División sin signo & \texttt{divu} & \(\text{LO} = \lfloor\text{rs}/\text{rt}\rfloor;\ \text{HI} = \text{rs}\text{ mod }\text{rt}\) & \texttt{divu \$t1, \$t2} \\
+Valor absoluto & \texttt{abs}  & \(\text{rd} = \lvert \text{rs} \rvert\)    & \texttt{abs \$t1} \\
+Negación & \texttt{neg}  & \(\text{rd} = -\text{rs}\)                 & \texttt{neg \$t1, \$t2}
+
+
+\end{tabular}
+\end{table}
+
+\end{document}
+
