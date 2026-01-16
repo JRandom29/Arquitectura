@@ -1,0 +1,284 @@
+\documentclass{article}
+\usepackage[landscape]{geometry}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{amsfonts}
+\usepackage{tikz}
+
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{amsmath,amssymb}
+
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\makeatletter
+
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\title{Formulario Arquitectura}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.45in
+\advance\evensidemargin-1.45in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+\begin{document}
+
+
+\begin{center}{\huge{\textbf{Formulario del capitulo 1}}}\\
+\end{center}
+\begin{multicols*}{2}
+
+\tikzstyle{mybox} = [draw=black, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=black, text=white, font=\bfseries]
+
+%--------------- prestaciones -----------%
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{0.46\textwidth}
+        
+        \begin{tabular}{lp{8cm} l} 
+            $Prestaciones_{x} = \displaystyle\frac{1}{\text{Tiempo de ejecucion}_{x}}$
+            \\\\
+            a menudo se desea relacionar cuantitativamante las prestaciones de dos
+            \\
+            máquinas diferentes.
+            \\\\
+            
+            $n = \displaystyle\frac{\text{Prestaciones}_x}{\text{Presta ciones}_{y}}$
+            \\\\
+            Si X es n veces más rápida que Y, entonces el tiempo de ejecución de Y 
+            \\
+            es n veces mayor que el de X:
+            \\\\
+            $ \displaystyle\frac{\text{Prestaciones}_x}{\text{Presta ciones}_{y}} = \displaystyle\frac{\text{tiempo de ejecucion}_y}{\text{Tiempo de ejecucion}_x} = n$ 
+	    \end{tabular}	
+    \end{minipage}
+};
+%------------Titulo superior Derecho ---------------------
+\node[fancytitle, right=10pt] at (box.north west) 
+{Prestaciones};
+\end{tikzpicture}
+
+
+%--------------- Prestaciones de la CPU -----------%
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{0.46\textwidth}
+    
+	\begin{tabular}{lp{8cm} l}
+    
+    $
+    \begin{gathered}
+        \text{Tiempo de ejecución de} 
+        \\[-1ex]
+        \text{CPU para un programa}
+    \end{gathered}
+    
+    \text{ = }
+    \begin{gathered}
+        \text{Ciclos de reloj de la} 
+        \\[-1ex]
+        \text{CPU para el programa}
+    \end{gathered}
+    \times
+    \begin{gathered}
+        \text{Tiempo del}
+        \\[-1ex]
+        \text{ciclo del reloj}
+    \end{gathered}
+    $
+    \\\\
+    \text{Alternativamente, ya que la frecuencia de reloj es la inversa del tiempo de ciclo}
+    \\\\
+    $
+    \begin{gathered}
+        \text{Tiempo de ejecución de} 
+        \\[-1ex]
+        \text{CPU para un programa}
+    \end{gathered}
+    \text{ = }
+
+    \displaystyle\frac{\text{Ciclos de reloj de la CPU para el programa}}{\text{Frecuencia de reloj }}    
+    $
+    \\\\
+     $\blacktriangle$
+     \textbf{Prestaciones de las instrucciones}
+    \\\\
+    $
+    \text{Ciclos de reloj de CPU }
+    \text{ = }
+    
+    \begin{gathered}
+        \text{Instrucciones} \\[-1ex]
+        \text{de un programa}
+    \end{gathered}
+    \times
+    
+    \begin{gathered}
+        \text{ Media de ciclos} \\[-1ex]
+        \text{ por instruccion}
+    \end{gathered}
+    $
+
+    \\\\
+     $\blacktriangle$
+     \textbf{ecuación clásica de las prestaciones de la CPU}
+    \\\\
+    $
+    \begin{gathered}
+        \text{Tiempo}\\[-1ex]
+        \text{de ejecucion}
+    \end{gathered}
+    
+    \text{ = }
+    
+    \begin{gathered}
+        \text{Número}\\[-1ex]
+        \text{de instrucciones}
+    \end{gathered}
+    
+    \times
+    
+    \begin{gathered}
+        \text{Ciclos de reloj }\\[-1ex]
+        \text{por instrucción (CPI)}
+    \end{gathered}
+    
+    \times
+    \text{Tiempo de ciclo}
+    $
+    \\\\
+    \text{o bien, dado que la frecuencia es el inverso del tiempo de ciclo:}
+    \\\\
+  $
+    \begin{gathered}
+        \text{Tiempo}\\[-1ex]
+        \text{de ejecucion}
+    \end{gathered}
+    \text{ = }
+    \displaystyle\frac{\text{Numero de instrucciones}\times\text{CPI}}{\text{Frecuencia de reloj}}
+    $
+    \end{tabular}
+    \end{minipage}
+};
+%------------Titulo superior ---------------------
+\node[fancytitle, right=10pt] at (box.north west) 
+{Prestaciones de la CPU};
+\end{tikzpicture}
+
+
+%--------------- Potencia -----------%
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{0.46\textwidth}
+    
+	\begin{tabular}{lp{8cm} l}
+    
+    $ \text{Potencia = carga capacitiva} \times voltaje^2 \times \text{ frecuencia de conmutación}$
+    \\\\
+    $\blacktriangle$
+    \textbf{Coste de un circuito integrado}
+    \\\\
+    \text{El coste de un circuito integrado se puede expresar con tres ecuaciones simples:}
+    \\\\
+    $
+    \begin{gathered}
+        \text{coste}\\[-1ex]
+        \text{por dado}
+    \end{gathered}
+    \text{ = }
+    
+    \displaystyle\frac{\text{coste por oblea}}{\begin{gathered}\text{dado por oblea}\end{gathered} \times \text{factor de producción}}
+    $
+\\[1.5em] 
+$
+\begin{gathered}
+    \text{dados}\\[-1ex]
+    \text{por oblea}
+\end{gathered}
+\text{ = }
+\displaystyle\frac{\text{área de la oblea}}{\text{área del dado}}
+$
+\\[1.5em]
+$
+\begin{gathered}
+    \text{factor}\\[-1ex]
+    \text{de producción}
+\end{gathered}
+\text{ = }
+\displaystyle\frac{1}{\left(1 + \left(\text{defectos por área} \times \text{área del dado}/2\right)\right)^{2}}
+    $
+
+    
+    \\\\
+    $\blacktriangle$
+    \textbf{Formula de la media geometrica}
+    \\\\
+    $
+    \sqrt[n]{\prod_{i=1}^{n} \text{Relaciones de tiempos de ejecución}_i}
+    $
+    \end{tabular}
+    \end{minipage}
+};
+%------------Titulo superior ---------------------
+\node[fancytitle, right=10pt] at (box.north west) 
+{Potencia relativa};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{0.46\textwidth}
+    
+	\begin{tabular}{lp{8cm} l}
+    
+    
+    regla que establece que el aumento posible de las prestaciones
+    con una mejora
+    \\ determinada está limitado por la cantidad en que se usa la mejora.
+    \\\\
+    $
+    \begin{gathered}
+    \text{tiempo de ejecución}\\[-1ex]
+    \text{después de las mejoras}
+\end{gathered}
+\text{ = }
+\displaystyle\frac{\begin{gathered}\text{tiempo de ejecución}\\[-1ex]\text{por la mejora}\end{gathered}}{\begin{gathered}\text{cantidad}\\[-1ex]\text{de mejora}\end{gathered}}
+\text{ + }
+\begin{gathered}
+    \text{tiempo de ejecución}\\[-1ex]
+    \text{no afectado}
+\end{gathered}
+    $
+    \\\\
+    $\blacktriangle$
+    Una alternativa al tiempo de ejecución son los MIPS (millones de \\instrucciones por segundo). Para un programa dado\\\\
+    $\text{MIPS} = \displaystyle\frac{\text{número de instrucciones}}{\text{tiempo de ejecución} \times 10^6}$
+    \\\\
+    $\text{MIPS} = \displaystyle\frac{\text{frecuencia de reloj}}{\text{CPI} \times 10^6}$    
+    
+    \end{tabular}
+    \end{minipage}
+};
+%------------Titulo superior ---------------------
+\node[fancytitle, right=10pt] at (box.north west) 
+{Ley de Amdhal};
+\end{tikzpicture}
+
+
+\end{multicols*}
+\end{document}
+
