@@ -5,8 +5,8 @@
 .text
 	main:
 		#cargar vector y tamaño
-		la $s0 , vector
-		lw $s1 , n  
+		la $a2 , vector
+		lw $a3 , n  
 		#
 		li $v0 , 1
 		li $a0 , 1
@@ -31,8 +31,8 @@
 	    	li $v0 , 10
 	    	syscall 
 	
-	burbuja_mejorada: #(s0::vector , s1::n)  : se guardaria en vector
-		sub $t1 , $s1 , 1 # ultima =  n - 1
+	burbuja_mejorada: #(a2::vector , a3::n)  : se guardaria en vector
+		sub $t1 , $a3 , 1 # ultima =  n - 1
 		while_burbuja:	
 			blez $t1 , end_while_burbuja
 			
@@ -43,7 +43,7 @@
 				bge $t0 , $t1 , end_for_burbuja # for ( j=0 ; j<ultima ; j++)
 				#obtener valores v[j] 
 				mul $t3 , $t0 , 4
-				addu $t3 , $s0 , $t3
+				addu $t3 , $a2 , $t3
 				lw $t4 , 0($t3)
 				
 				#obtener valores v[j+1] 
@@ -69,9 +69,9 @@
 	Show:
 		li $t6 ,0 
 		for_show:
-			beq $t6 , $s1 , end_for_show
+			beq $t6 , $a3 , end_for_show
 			mul $t0 , $t6 , 4
-			addu $t0 , $s0 , $t0
+			addu $t0 , $a2 , $t0
 			lw $t0 , 0($t0)
 			
 			li $v0 , 1
@@ -93,4 +93,3 @@
 		
 		
 	end_Show:
-	

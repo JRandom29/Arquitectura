@@ -5,8 +5,8 @@
 .text
 	main:
 		#cargar vector y tamaño
-		la $s0 , vector
-		lw $s1 , n  
+		la $a1 , vector
+		lw $a2 , n  
 		#
 		li $v0 , 1
 		li $a0 , 1
@@ -31,7 +31,7 @@
 	    	li $v0 , 10
 	    	syscall 
 	
-	selection_sort: #(s0::vector , s1::n)  : se guardaria en vector
+	selection_sort: #(a1::vector , a2::n)  : se guardaria en vector
 	
 		#  t0 = n-1
 		# t1 :: i = 0
@@ -42,7 +42,7 @@
 		#t6 :: pos_direccion
 		#t7 :: v [ pos ]
 		#------------Inicializar t0 y t1---------------------
-		sub $t0 , $s1 , 1 
+		sub $t0 , $a2 , 1 
 		li $t1 , 0
 		for1_selection:	
 			#-----------------Inicializar J y pos-----------------
@@ -50,15 +50,15 @@
 			add $t2 , $t1 	, 1	 # J = i + 1
 			move $t3 , $t1	 # pos = i
 			for2_selection:
-				beq $t2 , $s1 , end_for2_selection  # for ( j = i+1  ; j< n  ; j++)
+				beq $t2 , $a2 , end_for2_selection  # for ( j = i+1  ; j< n  ; j++)
 				#---------------obtener valores  de v[ j ] ----------------------
 				mul $t4 , $t2 , 4 
-				addu $t4 , $s0 , $t4 
+				addu $t4 , $a1 , $t4 
 				lw $t5 , 0($t4) 	#   t5 = v[ j ]  
 				
 				#--------------obtener valores de v[ pos ] -------------------
 				mul $t6 , $t3 , 4 
-				addu $t6 , $s0 , $t6 
+				addu $t6 , $a1 , $t6 
 				lw $t7 , 0($t6)        #  t7 = v[pos]
 				if_change_pos:
 					ble $t7 , $t5 , end_change_pos
@@ -69,11 +69,11 @@
 			end_for2_selection:		
 				swap: #Intercambiar los valores
 					mul $t4 , $t1 , 4 
-					addu $t4 , $s0 , $t4 	
+					addu $t4 , $a1 , $t4 	
 					lw $t5 , 0($t4) 	#   t5 = v[i ]
 
 					mul $t6 , $t3 , 4 
-					addu $t6 , $s0 , $t6 
+					addu $t6 , $a1 , $t6 
 					lw $t7 , 0($t6)        #  t7 = v[pos]		
 					
 					sw $t7  , 0($t4)
@@ -90,9 +90,9 @@
 	show:
 		li $t6 ,0 
 		for_show:
-			beq $t6 , $s1 , end_for_show
+			beq $t6 , $a2 , end_for_show
 			mul $t0 , $t6 , 4
-			addu $t0 , $s0 , $t0
+			addu $t0 , $a1 , $t0
 			lw $t0 , 0($t0)
 			
 			li $v0 , 1
