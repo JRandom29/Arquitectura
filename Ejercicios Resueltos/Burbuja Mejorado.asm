@@ -4,7 +4,7 @@
 
 .text
 	main:
-		#cargar vector y tamaño
+		# cargar vector y tamaño
 		la $a2 , vector
 		lw $a3 , n  
 		#
