@@ -1,7 +1,7 @@
 # Direcciones de memoria
 .eqv LuzControl 0xffff0010
 .eqv LuzEstado  0xffff0014
-.eqv LuzDatos   0xffff0004
+.eqv LuzDatos   0xffff0018
 
 
 .macro ShowText(%text)
